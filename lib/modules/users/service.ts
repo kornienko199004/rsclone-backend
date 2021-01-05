@@ -12,9 +12,15 @@ export default class UserService {
         users.findOne(query, callback);
     }
 
-    public updateUser(user_params: IUser, callback: any) {
+    public async updateUser(user_params: IUser, callback: any) {
         const query = { _id: user_params._id };
-        users.findOneAndUpdate(query, user_params, callback);
+        const user = await users.findOne(query);
+        const updates = Object.keys(user_params);
+        updates.forEach((update: string) => {
+            user[update] = user_params[update];
+        });
+        // users.findOneAndUpdate(query, user_params, callback);
+        await user.save(callback);
     }
     
     public deleteUser(_id: String, callback: any) {

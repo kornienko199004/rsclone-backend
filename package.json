@@ -7,7 +7,8 @@
     "lint": "eslint ./src/**/*.ts*",
     "lint:fix": "eslint ./src/**/*.ts* --fix",
     "test": "ts-node ./lib/server.ts",
-    "dev": "tsc && nodemon ./dist/server.js"
+    "dev": "tsc && nodemon ./dist/server.js",
+    "cli:dev": "nodemon lib/server.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +45,8 @@
   },
   "homepage": "https://github.com/kornienko199004/rsclone-backend#readme",
   "dependencies": {
+    "@types/mongoose": "^5.10.3",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongodb": "^3.1.10",

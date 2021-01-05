@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import { ModificationNote } from '../common/model';
 import validator from 'validator';
+import { hash } from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
@@ -33,6 +34,14 @@ const schema = new Schema({
         default: false
     },
     modification_notes: [ModificationNote]
+});
+
+schema.pre('save', async function(next) {
+    const user: any = this;
+    if (user.isModified('password')) {
+        user.password = await hash(user.password, 8);
+    }
+    next();
 });
 
 export default mongoose.model('users', schema);

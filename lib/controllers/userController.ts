@@ -52,6 +52,7 @@ export class UserController {
         if (req.params.id &&
             req.body.email ||
             req.body.password) {
+
             const user_filter = { _id: req.params.id };
             this.user_service.filterUser(user_filter, (err: any, user_data: IUser) => {
                 if (err) {
