@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { insufficientParameters, mongoError, successResponse, failureResponse } from '../modules/common/service';
 import { INote } from '../modules/notes/model';
 import  NoteService from '../modules/notes/service';
-import e = require('express');
 
 export class NoteController {
 
@@ -12,7 +11,7 @@ export class NoteController {
         // this check whether all the filds were send through the erquest or not
         if (req.body.title && req.body.body) {
             const note_params: INote = {
-                title: req.body.title, 
+                title: req.body.title,
                 body: req.body.body,
                 parents: req.body.parents,
                 modification_notes: [{
@@ -24,7 +23,7 @@ export class NoteController {
             this.note_service.createNote(note_params, (err: any, note_data: INote) => {
                 if (err) {
                     mongoError(err, res);
-                } else { 
+                } else {
                     successResponse('note was created successfully', note_data, res);
                 }
             });
