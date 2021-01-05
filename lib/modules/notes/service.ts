@@ -21,8 +21,8 @@ export default class NoteService {
         notes.findOneAndUpdate(query, note_params, callback);
     }
     
-    public deleteNote(_id: String, callback: any) {
-        const query = { _id: _id };
+    public deleteNote(_id: string, callback: any) {
+        const query = { _id };
         notes.deleteOne(query, callback);
     }
 

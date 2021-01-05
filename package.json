@@ -4,34 +4,12 @@
   "description": "Командный проект школы RSSchool.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ./src/**/*.ts*",
-    "lint:fix": "eslint ./src/**/*.ts* --fix",
     "test": "ts-node ./lib/server.ts",
     "dev": "tsc && nodemon ./dist/server.js",
-    "cli:dev": "nodemon lib/server.ts"
-  },
-  "eslintConfig": {
-    "extends": [
-      "airbnb-base"
-    ],
-    "rules": {
-      "linebreak-style": 0
-    }
-  },
-  "eslintIgnore": [
-    "*.test.*"
-  ],
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start": "tsc && nodemon ./dist/server.js",
+    "format": "prettier —write \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{src,apps,lib,test}/**/*.ts\" --fix",
+    "dev:watch": "nodemon lib/server.ts"
   },
   "repository": {
     "type": "git",
@@ -48,9 +26,11 @@
     "@types/mongoose": "^5.10.3",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongodb": "^3.1.10",
-    "mongoose": "^5.11.9"
+    "mongoose": "^5.11.9",
+    "typescript": "^3.7.4"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -58,10 +38,16 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.14.19",
     "@types/validator": "^13.1.2",
+    "@typescript-eslint/eslint-plugin": "3.9.1",
+    "@typescript-eslint/parser": "3.9.1",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.16.0",
-    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.6",
+    "prettier": "^1.19.1",
+    "tslint-config-airbnb-base": "^0.3.0",
     "validator": "^13.5.2",
     "validator.ts": "^0.2.2"
   }

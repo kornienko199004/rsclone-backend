@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose';
-import { ModificationNote } from '../common/model';
 import validator from 'validator';
 import { hash } from 'bcrypt';
+import { ModificationNote } from '../common/model';
 
-const Schema = mongoose.Schema;
+const {Schema} = mongoose;
 
 const schema = new Schema({
     email:{
