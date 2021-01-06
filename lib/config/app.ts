@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { UserRoutes } from "../routes/user_routes";
 import { NoteRoutes } from "../routes/note_routes";
 import { CommonRoutes } from "../routes/common_routes";
+import { AuthRoutes } from "../routes/auth_routes";
 
 dotenv.config();
 class App {
@@ -18,15 +19,22 @@ class App {
    private user_routes: UserRoutes = new UserRoutes();
 
    private note_routes: NoteRoutes = new NoteRoutes();
-
+   private auth_routes: AuthRoutes = new AuthRoutes();
    private common_routes: CommonRoutes = new CommonRoutes();
 
    constructor() {
       this.app = express();
       this.config();
+
+      this.app.use((req: express.Request, res: express.Response, next) => {
+         console.log(req.method, req.path);
+         next();
+      });
+
       this.mongoSetup();
       this.user_routes.route(this.app);
       this.note_routes.route(this.app);
+      this.auth_routes.route(this.app);
       this.common_routes.route(this.app);
    }
 
