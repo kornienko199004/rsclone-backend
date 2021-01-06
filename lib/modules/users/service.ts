@@ -19,7 +19,6 @@ export default class UserService {
         updates.forEach((update: string) => {
             user[update] = user_params[update];
         });
-        // users.findOneAndUpdate(query, user_params, callback);
         await user.save(callback);
     }
     

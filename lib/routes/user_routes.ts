@@ -1,4 +1,5 @@
 import { Application, Request, Response } from 'express';
+import auth from '../modules/middleware/auth';
 import { UserController } from '../controllers/userController';
 
 export class UserRoutes {
@@ -11,7 +12,7 @@ export class UserRoutes {
             this.user_controller.create_user(req, res);
         });
 
-        app.get('/api/user/:id', (req: Request, res: Response) => {
+        app.get('/api/user/:id', auth, (req: Request, res: Response) => {
             this.user_controller.get_user(req, res);
         });
 

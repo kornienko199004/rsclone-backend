@@ -1,24 +1,17 @@
 import { Application, Request, Response } from 'express';
-import users from '../modules/users/schema';
-import { compare } from 'bcrypt';
+import auth from '../modules/middleware/auth';
+import { AuthController } from '../controllers/authController';
 
 export class AuthRoutes {
-    public route(app: Application) {
-        app.post('/api/login', async (req: Request, res: Response) => {
-            try {
-              const user = await users.findOne({ email: req.body.email });
-              if (!user) {
-                throw new Error('Unable to login');
-              }
+    private auth_controller: AuthController = new AuthController();
 
-              const isMatch: boolean = await compare(req.body.password, user.password);
-              if (!isMatch) {
-                throw new Error('Unable to login');
-              }
-              res.send(user);
-            } catch (e) {
-              res.status(400).send();
-            }
+    public route(app: Application) {
+        app.post('/api/login', (req: Request, res: Response) => {
+          this.auth_controller.login(req, res);
+        });
+
+        app.post('/api/logout', auth, (req: Request, res: Response) => {
+          this.auth_controller.logout(req, res);
         });
     }
 }

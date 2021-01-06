@@ -25,6 +25,12 @@ class App {
    constructor() {
       this.app = express();
       this.config();
+
+      this.app.use((req: express.Request, res: express.Response, next) => {
+         console.log(req.method, req.path);
+         next();
+      });
+
       this.mongoSetup();
       this.user_routes.route(this.app);
       this.note_routes.route(this.app);
