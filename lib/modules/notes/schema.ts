@@ -11,11 +11,11 @@ const schema = new Schema({
     },
     parents: Array,
     body: Object,
-    // owner: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    //     ref: 'User'
-    // },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     modification_notes: [ModificationNote]
 });
 
