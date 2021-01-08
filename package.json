@@ -4,6 +4,7 @@
   "description": "Командный проект школы RSSchool.",
   "main": "index.js",
   "scripts": {
+    "start-production": "node ./dist/server.js",
     "test": "ts-node ./lib/server.ts",
     "dev": "tsc && nodemon ./dist/server.js",
     "start": "tsc && nodemon ./dist/server.js",
