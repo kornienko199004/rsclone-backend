@@ -6,6 +6,7 @@ import { UserRoutes } from "../routes/user_routes";
 import { NoteRoutes } from "../routes/note_routes";
 import { CommonRoutes } from "../routes/common_routes";
 import { AuthRoutes } from "../routes/auth_routes";
+import * as cors from "cors";
 
 dotenv.config();
 class App {
@@ -25,7 +26,7 @@ class App {
    constructor() {
       this.app = express();
       this.config();
-
+      this.app.use(cors());
       this.app.use((req: express.Request, res: express.Response, next) => {
          console.log(req.method, req.path);
          next();

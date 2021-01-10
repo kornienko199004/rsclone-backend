@@ -8,6 +8,7 @@ const user_routes_1 = require("../routes/user_routes");
 const note_routes_1 = require("../routes/note_routes");
 const common_routes_1 = require("../routes/common_routes");
 const auth_routes_1 = require("../routes/auth_routes");
+const cors = require("cors");
 dotenv.config();
 class App {
     constructor() {
@@ -19,6 +20,7 @@ class App {
         this.common_routes = new common_routes_1.CommonRoutes();
         this.app = express();
         this.config();
+        this.app.use(cors());
         this.app.use((req, res, next) => {
             console.log(req.method, req.path);
             next();
