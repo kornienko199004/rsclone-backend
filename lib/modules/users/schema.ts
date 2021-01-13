@@ -47,7 +47,7 @@ const schema = new Schema({
 
 schema.methods.generateAuthToken = async function(): Promise<string> {
     const user: IUserBase = this;
-    const token: string = sign({ _id: user._id.toString() }, process.env.TOKEN_SECRET, {expiresIn: '7d'});
+    const token: string = sign({ _id: user._id.toString() }, process.env.TOKEN_SECRET, {expiresIn: '365d'});
     user.tokens = user.tokens.concat({ token });
     await user.save();
     return token;
