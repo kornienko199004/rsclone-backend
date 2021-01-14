@@ -8,24 +8,32 @@ class NoteController {
         this.note_service = new service_2.default();
     }
     create_note(req, res) {
-        if (req.body.title && req.body.body) {
-            const note_params = {
-                title: req.body.title,
-                body: req.body.body,
-                parents: req.body.parents,
-                owner: req.user._id,
-                modification_notes: [{
-                        modified_on: new Date(Date.now()),
-                        modified_by: null,
-                        modification_note: 'New note created'
-                    }]
-            };
-            this.note_service.createNote(note_params, (err, note_data) => {
-                if (err) {
-                    service_1.mongoError(err, res);
+        if (req.body.title) {
+            const note_filter = { title: req.body.title, owner: req.user._id };
+            this.note_service.filterNote(note_filter, (err, note_data) => {
+                if (!note_data) {
+                    const note_params = {
+                        title: req.body.title,
+                        body: req.body.body,
+                        parents: req.body.parents,
+                        owner: req.user._id,
+                        modification_notes: [{
+                                modified_on: new Date(Date.now()),
+                                modified_by: null,
+                                modification_note: 'New note created'
+                            }]
+                    };
+                    this.note_service.createNote(note_params, (err, note_data) => {
+                        if (err) {
+                            service_1.mongoError(err, res);
+                        }
+                        else {
+                            service_1.successResponse('note was created successfully', note_data, res);
+                        }
+                    });
                 }
                 else {
-                    service_1.successResponse('note was created successfully', note_data, res);
+                    service_1.sameTitleFailureResponse('title must be unique', note_data, res);
                 }
             });
         }

@@ -6,8 +6,8 @@ const {Schema} = mongoose;
 const schema = new Schema({
     title: {
         type: String,
-        unique: true,
-        required: true
+        required: true,
+        trim: true,
     },
     parents: Array,
     body: Object,

@@ -16,7 +16,6 @@ class App {
   //  public mongoUrl: string = 'mongodb://localhost/' + environment.getDBName();
    public mongoUrl = `${process.env.MONGO_URL}`;
 
-
    private user_routes: UserRoutes = new UserRoutes();
 
    private note_routes: NoteRoutes = new NoteRoutes();

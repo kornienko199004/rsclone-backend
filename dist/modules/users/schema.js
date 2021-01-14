@@ -55,7 +55,7 @@ const schema = new Schema({
 schema.methods.generateAuthToken = function () {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
-        const token = jsonwebtoken_1.sign({ _id: user._id.toString() }, process.env.TOKEN_SECRET, { expiresIn: '7d' });
+        const token = jsonwebtoken_1.sign({ _id: user._id.toString() }, process.env.TOKEN_SECRET, { expiresIn: '365d' });
         user.tokens = user.tokens.concat({ token });
         yield user.save();
         return token;

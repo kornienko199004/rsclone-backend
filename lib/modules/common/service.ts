@@ -17,6 +17,14 @@ export function failureResponse(message: string, DATA: any, res: Response) {
     });
 }
 
+export function sameTitleFailureResponse(message: string, DATA: any, res: Response) {
+    res.status(response_status_codes.bad_request).json({
+        STATUS: 'FAILURE',
+        MESSAGE: message,
+        DATA: DATA,
+    });
+}
+
 export function insufficientParameters(res: Response) {
     res.status(response_status_codes.bad_request).json({
         STATUS: 'FAILURE',

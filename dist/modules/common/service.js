@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mongoError = exports.insufficientParameters = exports.failureResponse = exports.successResponse = void 0;
+exports.mongoError = exports.insufficientParameters = exports.sameTitleFailureResponse = exports.failureResponse = exports.successResponse = void 0;
 const model_1 = require("./model");
 function successResponse(message, DATA, res) {
     res.status(model_1.response_status_codes.success).json({
@@ -18,6 +18,14 @@ function failureResponse(message, DATA, res) {
     });
 }
 exports.failureResponse = failureResponse;
+function sameTitleFailureResponse(message, DATA, res) {
+    res.status(model_1.response_status_codes.bad_request).json({
+        STATUS: 'FAILURE',
+        MESSAGE: message,
+        DATA: DATA,
+    });
+}
+exports.sameTitleFailureResponse = sameTitleFailureResponse;
 function insufficientParameters(res) {
     res.status(model_1.response_status_codes.bad_request).json({
         STATUS: 'FAILURE',
