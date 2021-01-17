@@ -20,7 +20,12 @@ const schema = new Schema({
                 throw new Error('Email is invalid');
             }
         }
-    } ,
+    },
+    name:{
+        type: String,
+        required: true,
+        trim: true,
+    },
     password: {
         type: String,
         required: true,

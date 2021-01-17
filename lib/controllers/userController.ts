@@ -8,9 +8,10 @@ export class UserController {
   private user_service: UserService = new UserService();
 
   public create_user(req: Request, res: Response) {
-    if (req.body.email && req.body.password) {
+    if (req.body.email && req.body.password && req.body.name) {
       const user_params: IUser = {
         email: req.body.email,
+        name: req.body.name,
         password: req.body.password,
         modification_notes: [{
           modified_on: new Date(Date.now()),
@@ -36,7 +37,7 @@ export class UserController {
 
   public update_user(req: Request, res: Response) {
     if (req.body.email ||
-      req.body.password) {
+      req.body.password || req.body.name) {
           req.user.modification_notes.push({
             modified_on: new Date(Date.now()),
             modified_by: null,
@@ -45,6 +46,7 @@ export class UserController {
           const user_params: IUser = {
             _id: req.user._id,
             email: req.body.email ? req.body.email :  req.user.email,
+            name: req.body.name ? req.body.name :  req.user.name,
             password: req.body.password ? req.body.password :  req.user.password,
             is_deleted: req.body.is_deleted ? req.body.is_deleted :  req.user.is_deleted,
             modification_notes: req.user.modification_notes
