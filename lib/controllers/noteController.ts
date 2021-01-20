@@ -16,6 +16,7 @@ export class NoteController {
             title: req.body.title,
             body: req.body.body,
             parents: req.body.parents,
+            isDaily: req.body.isDaily,
             owner: req.user._id,
             modification_notes: [{
               modified_on: new Date(Date.now()),
@@ -31,7 +32,7 @@ export class NoteController {
             }
           });
         } else {
-          sameTitleFailureResponse('title must be unique',note_data, res);
+          sameTitleFailureResponse('title must be unique', note_data, res);
         }
       });
     } else {
@@ -47,6 +48,34 @@ export class NoteController {
           mongoError(err, res);
         } else {
           successResponse('recieved note successfully', note_data, res);
+        }
+      });
+    } else {
+      insufficientParameters(res);
+    }
+  }
+
+  public get_daily_note(req: Request, res: Response) {
+    if (req.params.id) {
+      const note_filter = { owner: req.user._id, isDaily: true };
+      this.note_service.getNotes(note_filter, (err: any, notes_data: INote[]) => {
+        if (err) {
+          mongoError(err, res);
+        } else {
+          const note_filter = { _id: req.params.id, owner: req.user._id, isDaily: true };
+          this.note_service.filterNote(note_filter, (err: any, note_data: INote) => {
+            if (err) {
+              mongoError(err, res);
+            } else {
+              if (!note_data) {
+                insufficientParameters(res);
+              } else {
+                notes_data = notes_data.filter((note) => {
+                  return Date.parse(note.modification_notes[0].modified_on.toString()) < Date.parse(note_data.modification_notes[0].modified_on.toString()) ? note : null;
+                });
+                successResponse('recieved note successfully', notes_data[notes_data.length - 1], res);
+              }
+            }});
         }
       });
     } else {
@@ -82,7 +111,7 @@ export class NoteController {
 
   public update_note(req: Request, res: Response) {
     if (req.params.id &&
-      req.body.title || req.body.body || req.body.parents) {
+      req.body.title || req.body.body || req.body.parents || req.body.isDaily) {
       const note_filter = { _id: req.params.id, owner: req.user._id };
       this.note_service.filterNote(note_filter, (err: any, note_data: INote) => {
         if (err) {
@@ -99,6 +128,7 @@ export class NoteController {
             body: req.body.body ? req.body.body : note_data.body,
             parents: req.body.parents ? req.body.parents : note_data.parents,
             owner: req.body.owner ? req.body.owner : note_data.owner,
+            isDaily: req.body.isDaily ? req.body.isDaily : note_data.isDaily,
             modification_notes: note_data.modification_notes
           };
           this.note_service.updateNote(note_params, (err: any) => {

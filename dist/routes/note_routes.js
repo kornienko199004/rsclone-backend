@@ -14,6 +14,9 @@ class NoteRoutes {
         app.get('/api/note/:id', auth_1.default, (req, res) => {
             this.note_controller.get_note(req, res);
         });
+        app.get('/api/note/daily/:id', auth_1.default, (req, res) => {
+            this.note_controller.get_daily_note(req, res);
+        });
         app.get('/api/note/title/:title', auth_1.default, (req, res) => {
             this.note_controller.get_note_by_title(req, res);
         });

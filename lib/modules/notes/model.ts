@@ -4,6 +4,7 @@ export interface INote {
     title: string,
     parents?: Array<Record<string, any>>;
     body: Record<string, any>;
+    isDaily: boolean;
     owner: string;
     modification_notes: ModificationNote[];
 }

@@ -16,6 +16,7 @@ class NoteController {
                         title: req.body.title,
                         body: req.body.body,
                         parents: req.body.parents,
+                        isDaily: req.body.isDaily,
                         owner: req.user._id,
                         modification_notes: [{
                                 modified_on: new Date(Date.now()),
@@ -57,6 +58,38 @@ class NoteController {
             service_1.insufficientParameters(res);
         }
     }
+    get_daily_note(req, res) {
+        if (req.params.id) {
+            const note_filter = { owner: req.user._id, isDaily: true };
+            this.note_service.getNotes(note_filter, (err, notes_data) => {
+                if (err) {
+                    service_1.mongoError(err, res);
+                }
+                else {
+                    const note_filter = { _id: req.params.id, owner: req.user._id, isDaily: true };
+                    this.note_service.filterNote(note_filter, (err, note_data) => {
+                        if (err) {
+                            service_1.mongoError(err, res);
+                        }
+                        else {
+                            if (!note_data) {
+                                service_1.insufficientParameters(res);
+                            }
+                            else {
+                                notes_data = notes_data.filter((note) => {
+                                    return Date.parse(note.modification_notes[0].modified_on.toString()) < Date.parse(note_data.modification_notes[0].modified_on.toString()) ? note : null;
+                                });
+                                service_1.successResponse('recieved note successfully', notes_data[notes_data.length - 1], res);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            service_1.insufficientParameters(res);
+        }
+    }
     get_note_by_title(req, res) {
         if (req.params.title) {
             const note_filter = { title: req.params.title, owner: req.user._id };
@@ -86,7 +119,7 @@ class NoteController {
     }
     update_note(req, res) {
         if (req.params.id &&
-            req.body.title || req.body.body || req.body.parents) {
+            req.body.title || req.body.body || req.body.parents || req.body.isDaily) {
             const note_filter = { _id: req.params.id, owner: req.user._id };
             this.note_service.filterNote(note_filter, (err, note_data) => {
                 if (err) {
@@ -104,6 +137,7 @@ class NoteController {
                         body: req.body.body ? req.body.body : note_data.body,
                         parents: req.body.parents ? req.body.parents : note_data.parents,
                         owner: req.body.owner ? req.body.owner : note_data.owner,
+                        isDaily: req.body.isDaily ? req.body.isDaily : note_data.isDaily,
                         modification_notes: note_data.modification_notes
                     };
                     this.note_service.updateNote(note_params, (err) => {

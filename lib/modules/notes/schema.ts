@@ -16,6 +16,11 @@ const schema = new Schema({
         required: true,
         ref: 'User'
     },
+    isDaily: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     modification_notes: [ModificationNote]
 });
 
