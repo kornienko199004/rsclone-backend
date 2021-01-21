@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const service_1 = require("../modules/common/service");
 const service_2 = require("../modules/users/service");
+const bcrypt_1 = require("bcrypt");
 class UserController {
     constructor() {
         this.user_service = new service_2.default();
@@ -72,6 +73,42 @@ class UserController {
         else {
             service_1.insufficientParameters(res);
         }
+    }
+    update_user_password(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (req.body.old_password && req.body.new_password) {
+                const isMatch = yield bcrypt_1.compare(req.body.old_password, req.user.password);
+                if (!isMatch) {
+                    service_1.failureResponse('The old password is wrong', null, res);
+                }
+                else {
+                    req.user.modification_notes.push({
+                        modified_on: new Date(Date.now()),
+                        modified_by: null,
+                        modification_note: 'User updated'
+                    });
+                    const user_params = {
+                        _id: req.user._id,
+                        email: req.user.email,
+                        name: req.user.name,
+                        password: req.body.new_password,
+                        is_deleted: req.user.is_deleted,
+                        modification_notes: req.user.modification_notes
+                    };
+                    yield this.user_service.updateUser(user_params, (err) => {
+                        if (err) {
+                            service_1.mongoError(err, res);
+                        }
+                        else {
+                            service_1.successResponse('user was updated successfully', null, res);
+                        }
+                    });
+                }
+            }
+            else {
+                service_1.insufficientParameters(res);
+            }
+        });
     }
     delete_user(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -17,6 +17,9 @@ class UserRoutes {
         app.put('/api/user/me', auth_1.default, (req, res) => {
             this.user_controller.update_user(req, res);
         });
+        app.put('/api/user/me/password', auth_1.default, (req, res) => {
+            this.user_controller.update_user_password(req, res);
+        });
         app.delete('/api/user/me', auth_1.default, (req, res) => {
             this.user_controller.delete_user(req, res);
         });
