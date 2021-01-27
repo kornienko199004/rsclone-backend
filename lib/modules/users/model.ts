@@ -1,11 +1,11 @@
 import { Document } from "mongoose";
 import { ModificationNote } from "../common/model";
-
 export interface IUser {
     _id?: string;
     email: string;
     name?: string;
     password: string;
+    shortcuts?: [String];
     is_deleted?: boolean;
     modification_notes: ModificationNote[]
 }

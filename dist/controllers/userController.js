@@ -47,7 +47,7 @@ class UserController {
     }
     update_user(req, res) {
         if (req.body.email ||
-            req.body.password || req.body.name) {
+            req.body.password || req.body.name || req.body.shortcuts) {
             req.user.modification_notes.push({
                 modified_on: new Date(Date.now()),
                 modified_by: null,
@@ -58,6 +58,7 @@ class UserController {
                 email: req.body.email ? req.body.email : req.user.email,
                 name: req.body.name ? req.body.name : req.user.name,
                 password: req.body.password ? req.body.password : req.user.password,
+                shortcuts: req.body.shortcuts ? req.body.shortcuts : req.user.shortcuts,
                 is_deleted: req.body.is_deleted ? req.body.is_deleted : req.user.is_deleted,
                 modification_notes: req.user.modification_notes
             };
@@ -92,6 +93,7 @@ class UserController {
                         email: req.user.email,
                         name: req.user.name,
                         password: req.body.new_password,
+                        shortcuts: req.user.shortcuts,
                         is_deleted: req.user.is_deleted,
                         modification_notes: req.user.modification_notes
                     };
