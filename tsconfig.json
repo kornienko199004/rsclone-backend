@@ -1,16 +1,21 @@
 {
   "compilerOptions": {
-     "module": "commonjs",
-     "moduleResolution": "node",
-     "pretty": true,
-     "target": "es6",
-     "outDir": "./dist",
-     "baseUrl": "./lib"
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "pretty": true,
+    "target": "es6",
+    "outDir": "./dist",
+    "baseUrl": "./lib",
+    "types": [
+      "jest",
+      "node",
+    ]
   },
   "include": [
-     "lib/**/*.ts"
+    "lib/**/*.ts",
+    "env.d.ts"
   ],
   "exclude": [
-     "node_modules"
+    "node_modules"
   ]
 }
