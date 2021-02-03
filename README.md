@@ -28,7 +28,7 @@ $ npm t
 ## Setting up the environment variables
 
 ```bash
-# env.sample
+# .env.sample
 PORT=3000
 MONGO_URL= the db url
 TOKEN_SECRET= the jwt secret
